@@ -21,7 +21,7 @@ class _HomeBottomBarNavigationState extends State<HomeBottomBarNavigation> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromRGBO(18, 18, 18, 1),
-        
+        resizeToAvoidBottomInset: true,
         body: widget.child,
         bottomNavigationBar: CurvedNavigationBar(
           backgroundColor: Color.fromRGBO(18, 18, 18, 1),

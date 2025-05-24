@@ -5,6 +5,8 @@ import 'package:my_flutter_application/app/data/dataSource/remote_data_source.da
 import 'package:my_flutter_application/app/data/repositories/respository_impl.dart';
 import 'package:my_flutter_application/app/domain/repositories/repository.dart';
 import 'package:my_flutter_application/app/domain/usecase/identify_driver.dart';
+import 'package:my_flutter_application/app/domain/usecase/send_query.dart';
+import 'package:my_flutter_application/app/presentation/blocs/chat/chat_bloc.dart';
 import 'package:my_flutter_application/app/presentation/blocs/driver_recognition/driver_recognition_bloc.dart';
 import 'package:my_flutter_application/core/network_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,7 +16,9 @@ final serviceLocator = GetIt.instance;
 
 Future<void> init() async {
   serviceLocator.registerFactory(() => DriverRecognitionBloc(identifyDriverUsecase: serviceLocator()));
+  serviceLocator.registerFactory(() => ChatBloc(sendQueryUsecase: serviceLocator()));
   serviceLocator.registerLazySingleton(() => IdentifyDriverUsecase(repository: serviceLocator()));
+  serviceLocator.registerLazySingleton(() => SendQueryUsecase(repository: serviceLocator()));
   serviceLocator.registerLazySingleton<Repository>(() => RepositoryImpl(remoteDataSource: serviceLocator(), networkInfo: serviceLocator()));
   serviceLocator.registerLazySingleton<RemoteDataSource>(() => RemoteDataSourceImpl(localDataSource: serviceLocator(), client: serviceLocator()));
   serviceLocator.registerLazySingleton<LocalDataSource>(() => LocalDataSourceImpl(preferences: serviceLocator()));
