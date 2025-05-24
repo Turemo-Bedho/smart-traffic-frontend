@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_flutter_application/app/domain/entities/driver.dart';
+import 'package:my_flutter_application/app/presentation/blocs/chat/chat_bloc.dart';
 import 'package:my_flutter_application/app/presentation/blocs/driver_recognition/driver_recognition_bloc.dart';
 import 'package:my_flutter_application/app/presentation/page/camera_page.dart';
 import 'package:my_flutter_application/app/presentation/page/chat_page.dart';
@@ -12,7 +13,9 @@ import 'package:my_flutter_application/app/presentation/page/navigation.dart';
 import 'package:my_flutter_application/app/presentation/page/notification_page.dart';
 import 'package:my_flutter_application/app/presentation/page/recognized_face_page.dart';
 import 'package:my_flutter_application/app/presentation/page/report_page.dart';
+import 'package:my_flutter_application/app/presentation/page/violation_page.dart';
 import 'package:my_flutter_application/dependency_injection.dart';
+import 'package:my_flutter_application/test/driver.dart';
 
 class TrafficApp extends StatelessWidget {
   const TrafficApp({super.key});
@@ -22,6 +25,8 @@ class TrafficApp extends StatelessWidget {
     final GoRouter router = GoRouter(
       navigatorKey: GlobalKey<NavigatorState>(),
       routes: [
+        // test route
+
         GoRoute(path: '/camera', builder: (context, state) => CameraScreen()),
         GoRoute(
             path: '/detail',
@@ -51,6 +56,7 @@ class TrafficApp extends StatelessWidget {
             GoRoute(path: '/chat', builder: (context, state) => ChatPage()),
           ],
         ),
+        GoRoute(path: '/violation', builder: (context, state) => ViolationPage()),
       ],
     );
     return ScreenUtilInit(
@@ -65,6 +71,9 @@ class TrafficApp extends StatelessWidget {
               BlocProvider<DriverRecognitionBloc>(
                   create: (context) => DriverRecognitionBloc(
                       identifyDriverUsecase: serviceLocator())),
+                      BlocProvider<ChatBloc>(
+                  create: (context) => ChatBloc(
+                      sendQueryUsecase: serviceLocator())),
             ],
             child: MaterialApp.router(
               debugShowCheckedModeBanner: false,
